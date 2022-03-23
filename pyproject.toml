@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "irmetrics"
+version = "0.1.0"
+description = ""
+authors = ["Jan-Christoph Klie  <git@mrklie.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.22.3"
+
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+isort = "^5.10.1"
+poethepoet = "^0.13.1"
+pytrec-eval-terrier = "^0.5.2"
+pytest = "^7.1.1"
+
+[tool.poe.tasks]
+black = "black -l 120 irmetrics/ tests/"
+isort = "isort --profile black irmetrics/ tests/"
+format = ["black", "isort"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
