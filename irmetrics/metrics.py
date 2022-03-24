@@ -44,7 +44,15 @@ def precision_at_k(
     return num_relevant_and_retrieved / k
 
 
+def precision_at_k_percent():
+    pass
+
+
 def recall_at_k():
+    pass
+
+
+def recall_at_k_percent():
     pass
 
 
