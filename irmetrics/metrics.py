@@ -1,3 +1,4 @@
+from math import ceil, floor
 from typing import List, Union
 
 import numpy as np
@@ -44,8 +45,43 @@ def precision_at_k(
     return num_relevant_and_retrieved / k
 
 
-def precision_at_k_percent():
-    pass
+def precision_at_k_percent(
+    relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]], k: float
+):
+    """Precision is the fraction of retrieved documents that are relevant to the query.
+    For example, for a text search on a set of documents, precision is the number of correct results
+    divided by the number of all returned results.
+
+    Precision@k% considers only the documents with the highest `k`% scores. if the resulting number of documents
+    to check is smaller than 1, then we perform precision@1.
+
+    Args:
+        relevancies: Array of non-negative relevancies.
+        scores: Target scores assigned to each document.
+        k: The cutoff value, only the documents with the highest `k`% scores are considered. Needs to be
+        between 0 and 100.
+
+    Returns: The precision at `k`% over the inputs.
+    """
+
+    relevancies = np.asarray(relevancies)
+    scores = np.asarray(scores)
+
+    _check_is_percentage(k)
+    _check_that_array_has_dimension(relevancies, 1)
+    _check_that_array_has_dimension(scores, 1)
+    _check_that_arrays_have_the_same_shape(relevancies, scores)
+    _check_that_array_contains_only_non_negative_elements(relevancies)
+    _check_that_array_contains_only_non_negative_elements(scores)
+
+    n = len(relevancies)
+
+    cutoff = max(1, round(n * k / 100))
+
+    assert cutoff > 0
+    assert cutoff <= n
+
+    return precision_at_k(relevancies, scores, cutoff)
 
 
 def recall_at_k():
@@ -85,3 +121,8 @@ def _check_that_arrays_have_the_same_shape(a: np.ndarray, b: np.ndarray):
 def _check_that_array_contains_only_non_negative_elements(array: np.ndarray):
     if np.any(array < 0):
         raise ValueError("Input contains negative elements")
+
+
+def _check_is_percentage(k: float):
+    if k < 0 or k > 100:
+        raise ValueError(f"Input is not a valid percentage (needs to be between 0 and 100, but was [{k}]")
