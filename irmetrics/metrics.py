@@ -175,10 +175,6 @@ def average_precision(
     return result / num_relevant
 
 
-def mean_average_precision():
-    pass
-
-
 def r_precision():
     pass
 
