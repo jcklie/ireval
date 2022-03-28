@@ -3,6 +3,19 @@ name = "irmetrics"
 version = "0.1.0"
 description = ""
 authors = ["Jan-Christoph Klie  <git@mrklie.com>"]
+readme = "README.md"
+homepage = "https://github.com/jcklie/irmetrics"
+repository = "https://github.com/jcklie/irmetrics"
+keywords = ["information retrieval", "metrics", "machine learning"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+include = ["README.md"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
