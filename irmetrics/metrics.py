@@ -47,7 +47,7 @@ def precision_at_k(
 
 def precision_at_k_percent(
     relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]], k: float
-):
+) -> float:
     """Precision is the fraction of retrieved documents that are relevant to the query.
     For example, for a text search on a set of documents, precision is the number of correct results
     divided by the number of all returned results.
