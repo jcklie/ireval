@@ -1,5 +1,10 @@
 # ireval
 
+![GitHub branch checks state](https://img.shields.io/github/checks-status/jcklie/ireval/main)
+![PyPI - License](https://img.shields.io/pypi/l/ireval)
+![PyPI](https://img.shields.io/pypi/v/ireval)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ireval)
+
 This Python package provides an implementation of the most common information retrieval (IR) metrics.
 Our goal is to return the same scores as [trec_eval](https://github.com/usnistgov/trec_eval).
 We achieve this by extensively comparing our implementations across many different datasets with their results.
