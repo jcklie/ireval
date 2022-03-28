@@ -214,10 +214,6 @@ def r_precision():
     pass
 
 
-def ndcg():
-    pass
-
-
 def _check_that_array_has_dimension(array: np.ndarray, expected_dim: int):
     if array.ndim != expected_dim:
         raise ValueError(f"Expected input to be of dimension [{expected_dim}], but was [{array.ndim}]")
