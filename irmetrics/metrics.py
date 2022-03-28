@@ -128,7 +128,9 @@ def recall_at_k_percent():
     pass
 
 
-def average_precision(relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]]):
+def average_precision(
+    relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]]
+) -> float:
     """Compute average precision (AP) from prediction scores.
 
     AP summarizes a precision-recall curve as the weighted mean of precisions achieved at each threshold, with the
