@@ -26,7 +26,7 @@ The following metrics are currently implemented:
 import ireval
 
 relevancies = [1, 0, 1, 1, 0]
-scores = [0.1, 0.4, 0.35, 0.8]
+scores = [0.1, 0.4, 0.35, 0.8, .25]
 
 p5 = ireval.precision_at_k(relevancies, scores, 5)
 p5pct = ireval.precision_at_k_percent(relevancies, scores, 5)
