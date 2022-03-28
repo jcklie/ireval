@@ -127,7 +127,7 @@ def recall_at_k(
 def recall_at_k_percent(
     relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]], k: float
 ) -> float:
-    """Recall is the fraction of the documents that are relevant to the query that are successfully retrieved.
+    """Recall is the fraction of the relevant documents that are successfully retrieved. .
     For example, for a text search on a set of documents, recall is the number of correct results divided by the
     number of results that should have been returned.
 
@@ -213,8 +213,8 @@ def average_precision(
 def r_precision(
     relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]]
 ) -> float:
-    """R-precision is the precision at the `R`th position in the ranking of results for a query
-    that has `R` relevant documents.
+    """R-Precision is the precision after `R` documents have been retrieved, where `R` is the number of
+    relevant documents for the topic.
 
     R-precision requires knowing all documents that are relevant to a query. The number of relevant documents,
     `R`, is used as the cutoff for calculation, and this varies from query to query. For example,

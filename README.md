@@ -11,20 +11,29 @@ We achieve this by extensively comparing our implementations across many differe
 
 The following metrics are currently implemented:
 
-| Name         | Function                 | Description                                                                                                                                              |
-|--------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Precision@k  | `precision_at_k`         | Precision is the fraction of retrieved documents that are relevant to the query. Precision@k considers only the documents with the highest `k` scores.   |
-| Precision@k% | `precision_at_k_percent` | Precision is the fraction of retrieved documents that are relevant to the query. Precision@k% considers only the documents with the highest `k`% scores. |
+| Name              | Function                 | Description                                                                                                                                              |
+|-------------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Precision@k       | `precision_at_k`         | Precision is the fraction of retrieved documents that are relevant to the query. Precision@k considers only the documents with the highest `k` scores.   |
+| Precision@k%      | `precision_at_k_percent` | Precision is the fraction of retrieved documents that are relevant to the query. Precision@k% considers only the documents with the highest `k`% scores. |
+| Recall@k          | `recall_at_k`            | Recall is the fraction of the relevant documents that are successfully retrieved. Recall@k considers only the documents with the highest `k` scores.     |
+| Recall@k%         | `recall_at_k_percent`    | Recall is the fraction of the relevant documents that are successfully retrieved. Recall@k% considers only the documents with the highest `k`% scores.   |
+| Average precision | `average_precision`      | Average precision is the area under the precision-recall curve.                                                                                          |
+| R-precision       | `r_precision`            | R-Precision is the precision after R documents have been retrieved, where R is the number of relevant documents for the topic.                           | |
 
 ## Usage
 
 ```python
-from irmetrics import *
+import irmetrics
 
-relevancies = [0, 0, 1, 1]
+relevancies = [1, 0, 1, 1, 0]
 scores = [0.1, 0.4, 0.35, 0.8]
 
-p5 = precision_at_k(relevancies, scores, 5)
-p5 = precision_at_k_percent(relevancies, scores, 5)
+p5 = irmetrics.precision_at_k(relevancies, scores, 5)
+p5pct = irmetrics.precision_at_k_percent(relevancies, scores, 5)
 
+r5 = irmetrics.recall_at_k(relevancies, scores, 5)
+r5pct = irmetrics.recall_at_k_percent(relevancies, scores, 5)
+
+ap = irmetrics.average_precision(relevancies, scores)
+rprec = irmetrics.r_precision(relevancies, scores)
 ```
