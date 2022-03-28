@@ -92,8 +92,49 @@ def recall_at_k_percent():
     pass
 
 
-def average_precision():
-    pass
+def average_precision(relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]]):
+    """Compute average precision (AP) from prediction scores.
+
+    AP summarizes a precision-recall curve as the weighted mean of precisions achieved at each threshold, with the
+    increase in recall from the previous threshold used as the weight. It is identical to the area under the
+    precision-recall curve.
+
+    Args:
+        relevancies: Array of non-negative relevancies.
+        scores: Target scores assigned to each document.
+
+    Returns: The average precision (AP) over the inputs.
+    """
+
+    relevancies = np.asarray(relevancies)
+    scores = np.asarray(scores)
+
+    _check_that_array_has_dimension(relevancies, 1)
+    _check_that_array_has_dimension(scores, 1)
+    _check_that_arrays_have_the_same_shape(relevancies, scores)
+    _check_that_array_contains_only_non_negative_elements(relevancies)
+    _check_that_array_contains_only_non_negative_elements(scores)
+
+    n = len(relevancies)
+
+    indices = np.argsort(-scores)
+
+    true_positives = 0
+
+    result = 0
+    for k in range(n):
+        idx = indices[k]
+
+        relevant = relevancies[idx] > 0
+        if relevant:
+            true_positives += 1
+
+        pk = true_positives / (k + 1)
+
+        result += pk * relevant
+
+    num_relevant = np.count_nonzero(relevancies)
+    return result / num_relevant
 
 
 def mean_average_precision():
