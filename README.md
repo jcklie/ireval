@@ -1,11 +1,11 @@
-# irmetrics
+# ireval
 
 This Python package provides an implementation of the most common information retrieval (IR) metrics.
 Our goal is to return the same scores as [trec_eval](https://github.com/usnistgov/trec_eval).
 We achieve this by extensively comparing our implementations across many different datasets with their results.
-`irmetrics` can be installed via
+`ireval` can be installed via
 
-    pip install irmetrics
+    pip install ireval
 
 ## Implemented metrics
 
@@ -23,17 +23,17 @@ The following metrics are currently implemented:
 ## Usage
 
 ```python
-import irmetrics
+import ireval
 
 relevancies = [1, 0, 1, 1, 0]
 scores = [0.1, 0.4, 0.35, 0.8]
 
-p5 = irmetrics.precision_at_k(relevancies, scores, 5)
-p5pct = irmetrics.precision_at_k_percent(relevancies, scores, 5)
+p5 = ireval.precision_at_k(relevancies, scores, 5)
+p5pct = ireval.precision_at_k_percent(relevancies, scores, 5)
 
-r5 = irmetrics.recall_at_k(relevancies, scores, 5)
-r5pct = irmetrics.recall_at_k_percent(relevancies, scores, 5)
+r5 = ireval.recall_at_k(relevancies, scores, 5)
+r5pct = ireval.recall_at_k_percent(relevancies, scores, 5)
 
-ap = irmetrics.average_precision(relevancies, scores)
-rprec = irmetrics.r_precision(relevancies, scores)
+ap = ireval.average_precision(relevancies, scores)
+rprec = ireval.r_precision(relevancies, scores)
 ```

@@ -5,7 +5,7 @@ import numpy.typing as npt
 import pytest
 from pytrec_eval import RelevanceEvaluator
 
-from irmetrics.metrics import (
+from ireval.metrics import (
     average_precision,
     precision_at_k,
     precision_at_k_percent,
