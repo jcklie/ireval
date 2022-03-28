@@ -210,8 +210,33 @@ def average_precision(
     return result / num_relevant
 
 
-def r_precision():
-    pass
+def r_precision(
+    relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]]
+) -> float:
+    """R-precision is the precision at the `R`th position in the ranking of results for a query
+    that has `R` relevant documents.
+
+    R-precision requires knowing all documents that are relevant to a query. The number of relevant documents,
+    `R`, is used as the cutoff for calculation, and this varies from query to query. For example,
+    if there are `15` documents relevant to "red" in a corpus (`R=15`), R-precision for "red" looks at the top `15`
+    documents returned, counts the number `r`  that are relevant and turns that into a relevancy
+    fraction: `r / R = r / 15`.
+
+    Returns:
+
+    """
+    relevancies = np.asarray(relevancies)
+    scores = np.asarray(scores)
+
+    _check_that_array_has_dimension(relevancies, 1)
+    _check_that_array_has_dimension(scores, 1)
+    _check_that_arrays_have_the_same_shape(relevancies, scores)
+    _check_that_array_contains_only_non_negative_elements(relevancies)
+    _check_that_array_contains_only_non_negative_elements(scores)
+
+    num_relevant = np.count_nonzero(relevancies)
+
+    return precision_at_k(relevancies, scores, num_relevant)
 
 
 def _check_that_array_has_dimension(array: np.ndarray, expected_dim: int):

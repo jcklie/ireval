@@ -9,6 +9,7 @@ from irmetrics.metrics import (
     average_precision,
     precision_at_k,
     precision_at_k_percent,
+    r_precision,
     recall_at_k,
     recall_at_k_percent,
 )
@@ -84,6 +85,18 @@ def test_average_precision(seed: int, n: int):
     expected_value = compute_score_via_trec_eval(f"map", relevancies, scores)
 
     actual_value = average_precision(relevancies, scores)
+
+    assert actual_value == pytest.approx(expected_value)
+
+
+@pytest.mark.parametrize("seed", SEEDS, ids=lambda seed: f"Seed: {seed}")
+@pytest.mark.parametrize("n", N, ids=lambda n: f"n: {n}")
+def test_r_precision(seed: int, n: int):
+    relevancies, scores = build_dataset(seed, n)
+
+    expected_value = compute_score_via_trec_eval(f"Rprec", relevancies, scores)
+
+    actual_value = r_precision(relevancies, scores)
 
     assert actual_value == pytest.approx(expected_value)
 
