@@ -10,6 +10,7 @@ from irmetrics.metrics import (
     precision_at_k,
     precision_at_k_percent,
     recall_at_k,
+    recall_at_k_percent,
 )
 
 SEEDS = [0, 13, 23, 42, 110, 666, 911, 1337, 2718, 31415, 8675309]
@@ -56,6 +57,21 @@ def test_recall_at_k(seed: int, k: int, n: int):
     expected_value = compute_score_via_trec_eval(f"recall_{k}", relevancies, scores)
 
     actual_value = recall_at_k(relevancies, scores, k)
+
+    assert actual_value == pytest.approx(expected_value)
+
+
+@pytest.mark.parametrize("seed", SEEDS, ids=lambda seed: f"Seed: {seed}")
+@pytest.mark.parametrize("k", K_PERCENTAGES, ids=lambda k: f"k: {k}")
+@pytest.mark.parametrize("n", N, ids=lambda n: f"n: {n}")
+def test_recall_at_k_percent(seed: int, k: int, n: int):
+    relevancies, scores = build_dataset(seed, n)
+
+    cutoff = max(1, round(n * k / 100))
+
+    expected_value = compute_score_via_trec_eval(f"recall_{cutoff}", relevancies, scores)
+
+    actual_value = recall_at_k_percent(relevancies, scores, k)
 
     assert actual_value == pytest.approx(expected_value)
 
