@@ -84,8 +84,44 @@ def precision_at_k_percent(
     return precision_at_k(relevancies, scores, cutoff)
 
 
-def recall_at_k():
-    pass
+def recall_at_k(
+    relevancies: Union[List[int], npt.NDArray[int]], scores: Union[List[float], npt.NDArray[float]], k: float
+) -> float:
+    """Recall is the fraction of the documents that are relevant to the query that are successfully retrieved.
+    For example, for a text search on a set of documents, recall is the number of correct results divided by the
+    number of results that should have been returned.
+
+    Recall@k considers only the documents with the highest `k` scores.
+    Please note that in `trec_eval`, the number of relevant documents is always `k`, even
+    if there are actually fewer documents, that is, `len(relevancies) < k`.
+
+    Args:
+        relevancies: Array of non-negative relevancies.
+        scores: Target scores assigned to each document.
+        k: The cutoff value, only the documents with the highest `k` scores are considered.
+
+    Returns: The recall at `k` over the inputs.
+    """
+
+    relevancies = np.asarray(relevancies)
+    scores = np.asarray(scores)
+
+    _check_that_array_has_dimension(relevancies, 1)
+    _check_that_array_has_dimension(scores, 1)
+    _check_that_arrays_have_the_same_shape(relevancies, scores)
+    _check_that_array_contains_only_non_negative_elements(relevancies)
+    _check_that_array_contains_only_non_negative_elements(scores)
+
+    n = len(relevancies)
+
+    if k < n:
+        top_k_indices = np.argpartition(-scores, k)[:k]
+        assert len(top_k_indices) == k
+        num_relevant_and_retrieved = np.count_nonzero(relevancies[top_k_indices])
+    else:
+        num_relevant_and_retrieved = np.count_nonzero(relevancies)
+
+    return num_relevant_and_retrieved / np.count_nonzero(relevancies)
 
 
 def recall_at_k_percent():
